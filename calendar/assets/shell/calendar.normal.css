@@ -1,0 +1,16 @@
+/* skin for `normal` shield */
+.calendar .month {
+  background-color:#333;
+  color:white;
+  border:1px solid transparent;
+  border-bottom-width:0;
+}
+.calendar th {background-color:#FFA}
+.calendar .date a {font-weight:bold}
+.calendar .date-0 {background-color:#FFE5A0}
+.calendar .date.active {background-color:#BEFFAA}
+.calendar .date.current {
+  background-color:#B2E0FF;
+  font-weight:normal;
+}
+.calendar .date.current.active {background-color:#FFB2B2}

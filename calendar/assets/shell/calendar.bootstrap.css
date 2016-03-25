@@ -1,0 +1,16 @@
+/* skin for `bootstrap` shield */
+.calendar .month {border-top:1px dashed #E5F2F7}
+.calendar th,
+.calendar td {border-width:0}
+.calendar th {
+  background-color:#E5F2F7;
+  color:#30708F;
+}
+.calendar .date a {font-weight:bold}
+.calendar .date-0 {background-color:#F5F5F5}
+.calendar .date.active {background-color:#DFF0D8}
+.calendar .date.current {
+  background-color:#D9EDF7;
+  font-weight:normal;
+}
+.calendar .date.current.active {background-color:#F2DEDE}

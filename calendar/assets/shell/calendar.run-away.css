@@ -1,0 +1,14 @@
+/* skin for `run-away` shield */
+.calendar th,
+.calendar td {border-width:0}
+.calendar tr {
+  border-top:1px solid #DBCEC9;
+  border-bottom:1px solid #DBCEC9;
+}
+.calendar th {background-color:#FAF5F2}
+.calendar .month {border-top:1px dashed #DBCEC9}
+.calendar .month strong {font-style:italic}
+.calendar tbody tr:nth-child(even) {background-color:#FFFCFA}
+.calendar .date.active {background-color:#EDF5C4}
+.calendar .date.current {background-color:#E0E8FF}
+.calendar .date.current.active {background-color:#FCDBDB}

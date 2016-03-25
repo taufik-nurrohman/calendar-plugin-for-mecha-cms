@@ -1,0 +1,20 @@
+/* skin for `portal` shield */
+.calendar th,
+.calendar td {border-color:#D1D8DB}
+.calendar th {background-color:#EDF2F2}
+.calendar .date.current {background-color:#E8F0F0}
+.blog-sidebar .widget-custom-calendar {
+  padding-right:.5em;
+  padding-left:.5em;
+}
+.blog-sidebar .calendar th {background-color:#D1D8DB}
+.blog-sidebar .calendar .date.active {background-color:white}
+.blog-footer-grid-group .calendar .month {border-top:1px dashed white}
+.blog-footer-grid-group .calendar th,
+.blog-footer-grid-group .calendar td {border-color:white}
+.blog-footer-grid-group .calendar th {
+  background-color:white;
+  color:#333;
+}
+.blog-footer-grid-group .calendar .date.active {background-color:rgba(255,255,255,.05)}
+.blog-footer-grid-group .calendar .date.current {background-color:#98ADC6}
