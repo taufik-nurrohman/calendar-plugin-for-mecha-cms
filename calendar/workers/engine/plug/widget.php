@@ -16,7 +16,7 @@ Widget::add('calendar', function($id = 0) use($config) {
     $html  = $T1 . '<table class="calendar calendar-' . $id . $current . $kind . '" id="calendar-' . $id . '">' . NL;
     $current = $C['month'] === $C['current']['month'] ? $cc : "";
     $html .= $T2 . '<caption class="month month-' . $C['month'] . $current . $kind . '">';
-    $html .= '<a href="' . $C['prev']['url'] . '" rel="prev">&#9666;</a>&nbsp;';
+    $html .= '<a href="' . ($C['prev']['url'] ? $C['prev']['url'] : $config->url_current) . '" rel="prev">&#9666;</a>&nbsp;';
     $html .= '<strong>';
     if(isset($C[$C['year'] . '/' . $C['month']])) {
         $C = array_merge($C, (array) $C[$C['year'] . '/' . $C['month']]);
@@ -33,7 +33,7 @@ Widget::add('calendar', function($id = 0) use($config) {
         $html .= $C['title'];
     }
     $html .= '</strong>';
-    $html .= '&nbsp;<a href="' . $C['next']['url'] . '" rel="next">&#9656;</a>';
+    $html .= '&nbsp;<a href="' . ($C['next']['url'] ? $C['next']['url'] : $config->url_current) . '" rel="next">&#9656;</a>';
     $html .= '</caption>' . NL;
     $html .= $T2 . '<thead>' . NL;
     $html .= $T3 . '<tr class="week week-0">' . NL;
