@@ -14,3 +14,7 @@
   font-weight:normal;
 }
 .calendar .date.current.active {background-color:#FFB2B2}
+.calendar .date.current.active a {
+  font-weight:normal;
+  color:inherit;
+}

@@ -1,5 +1,5 @@
 .calendar {
-  background:inherit;
+  background:none;
   border:none;
   border-collapse:collapse;
   table-layout:fixed;
@@ -22,6 +22,8 @@
   height:2em;
   vertical-align:middle;
   text-align:center;
+  white-space:nowrap;
+  overflow:hidden;
 }
 
 .calendar th {font-weight:bold}

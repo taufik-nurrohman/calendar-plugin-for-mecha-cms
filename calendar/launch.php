@@ -1,5 +1,7 @@
 <?php
 
+// TODO: Add option to set first day of week, etc.
+
 spl_autoload_register(function($worker) {
     $path = __DIR__ . DS . 'workers' . DS . 'engine' . DS . 'kernel' . DS . strtolower($worker) . '.php';
     if(file_exists($path)) require $path;

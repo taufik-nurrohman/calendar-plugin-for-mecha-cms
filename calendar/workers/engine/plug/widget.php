@@ -2,23 +2,21 @@
 
 // Widget::calendar('foo');
 Widget::add('calendar', function($id = 0) use($config) {
-    $year = Request::get('calendar.' . $id . '.year', null);
-    $month = Request::get('calendar.' . $id . '.month', null);
+    $year = Calendar::year($id, null);
+    $month = Calendar::month($id, null);
     $T1 = TAB;
     $T2 = str_repeat(TAB, 2);
     $T3 = str_repeat(TAB, 3);
     $T4 = str_repeat(TAB, 4);
-    $C = Calendar::raw($id, $year, $month);
+    $cc = ' ' . Widget::$config['classes']['current'];
+    $C = Calendar::__($id, $year, $month);
     $C = Filter::apply(array('calendar:' . $id, 'calendar'), $C, $C['year'], $C['month'], $id);
-    $html  = $T1 . '<table class="calendar calendar-' . $id . ($C['year'] === $C['current']['year'] && $C['month'] === $C['current']['month'] ? ' current' : "") . '" id="calendar-' . $id . '">' . NL;
-    $html .= $T2 . '<caption class="month month-' . $C['month'] . ($C['month'] === $C['current']['month'] ? ' current' : "") . '">';
-    $time = strtotime($C['year'] . '/' . $C['month'] . '/1 11:11:11');
-    $time_c = strtotime($C['current']['year'] . '/' . $C['current']['month'] . '/1 11:11:11');
-    $time_p = strtotime('previous month', $time);
-    $time_n = strtotime('next month', $time);
-    $url_prev = $time_p !== $time_c ? str_replace('&', '&amp;', HTTP::query(array('calendar[' . $id . '][year]' => (int) date('Y', $time_p), 'calendar[' . $id . '][month]' => (int) date('m', $time_p)))) : $config->url_current;
-    $url_next = $time_n !== $time_c ? str_replace('&', '&amp;', HTTP::query(array('calendar[' . $id . '][year]' => (int) date('Y', $time_n), 'calendar[' . $id . '][month]' => (int) date('m', $time_n)))) : $config->url_current;
-    $html .= '<a href="' . $url_prev . '">&#9666;</a>&nbsp;';
+    $current = $C['year'] === $C['current']['year'] && $C['month'] === $C['current']['month'] ? $cc : "";
+    $kind = $kind = isset($C['kind']) ? ' kind-' . implode(' kind-', (array) $C['kind']) : "";
+    $html  = $T1 . '<table class="calendar calendar-' . $id . $current . $kind . '" id="calendar-' . $id . '">' . NL;
+    $current = $C['month'] === $C['current']['month'] ? $cc : "";
+    $html .= $T2 . '<caption class="month month-' . $C['month'] . $current . $kind . '">';
+    $html .= '<a href="' . $C['prev']['url'] . '" rel="prev">&#9666;</a>&nbsp;';
     $html .= '<strong>';
     if(isset($C[$C['year'] . '/' . $C['month']])) {
         $C = array_merge($C, (array) $C[$C['year'] . '/' . $C['month']]);
@@ -35,7 +33,7 @@ Widget::add('calendar', function($id = 0) use($config) {
         $html .= $C['title'];
     }
     $html .= '</strong>';
-    $html .= '&nbsp;<a href="' . $url_next . '">&#9656;</a>';
+    $html .= '&nbsp;<a href="' . $C['next']['url'] . '" rel="next">&#9656;</a>';
     $html .= '</caption>' . NL;
     $html .= $T2 . '<thead>' . NL;
     $html .= $T3 . '<tr class="week week-0">' . NL;
@@ -51,10 +49,17 @@ Widget::add('calendar', function($id = 0) use($config) {
         foreach($v as $kk => $vv) {
             $h = $C['year'] . '/' . $C['month'] . '/' . $vv['title'];
             $hook = isset($C[$h]) ? $C[$h] : array();
+            if(isset($hook['title'])) {
+                if(is_callable($hook['title'])) {
+                    $hook['title'] = call_user_func($hook['title'], $vv, $C['data']);
+                } else {
+                    $hook['title'] = sprintf($hook['title'], $vv['title']);
+                }
+            }
             $vv = array_merge($vv, $hook);
             unset($C[$h]);
             $s = $vv['title'] ? $vv['title'] : "";
-            $current = $vv['current'] ? ' current' : "";
+            $current = $vv['current'] ? $cc : "";
             $active = isset($vv['url']) || isset($vv['description']) && $vv['description'] !== $config->speak->today ? ' active' : "";
             $kind = isset($vv['kind']) ? ' kind-' . implode(' kind-', (array) $vv['kind']) : "";
             $html .= $T4 . '<td class="date date-' . ($s ? $s : 0) . ' day-' . ($kk + 1) . $current . $active . $kind . '">';

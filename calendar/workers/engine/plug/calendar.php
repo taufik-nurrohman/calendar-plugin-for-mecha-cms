@@ -12,10 +12,10 @@ Calendar::plug('hook', function($id = 0, $fn = 10, $stack = 10) {
     Filter::add('calendar' . $id, $fn, $stack);
 });
 
-// Calendar::date('2016/4/21', 'foo', array( ... ));
-// Calendar::date('2016/4', 'foo', array( ... ));
-// Calendar::date('2016', 'foo', array( ... ));
-Calendar::plug('date', function($date, $id, $data) {
+// Calendar::date('2016/4/21', array( ... ), 'foo');
+// Calendar::date('2016/4', array( ... ), 'foo');
+// Calendar::date('2016', array( ... ), 'foo');
+Calendar::plug('date', function($date, $data, $id = null) {
     if(is_null($id)) {
         $id = "";
     } else {

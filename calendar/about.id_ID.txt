@@ -1,0 +1,84 @@
+Title: Kalender
+Author: Taufik Nurrohman
+URL: http://latitudu.com
+Version: 1.0.0
+
+====
+
+> Widget kalender.
+
+Ini merupakan widget inti. Tambahkan peristiwa kustom Anda sendiri dengan memanfaatkan kait yang tersedia.
+
+#### Penggunaan Dasar
+
+Sebagai widget mentah:
+
+~~~ .php
+<?php echo Widget::calendar('id_unik_anda'); ?>
+~~~
+
+Sebagai blok widget:
+
+~~~ .php
+<?php echo Shield::chunk('block.widget', array(
+    'title' => $speak->calendar,
+    'content' => Widget::calendar('id_unik_anda')
+)); ?>
+~~~
+
+#### Kait
+
+ID kalender Anda juga akan mempengaruhi ID kait kalender. Oleh karena itu, Anda dapat menambahkan beberapa catatan ke tanggal yang ditetapkan berdasarkan ID kalender.
+
+~~~ .php
+Calendar::hook('id_unik_anda', function($lot, $year, $month, $id) { … });
+~~~
+
+~~~ .php
+Calendar::date('2016/4/21', array( … ), 'id_unik_anda');
+Calendar::date('2016/4', array( … ), 'id_unik_anda');
+Calendar::date('2016', array( … ), 'id_unik_anda');
+~~~
+
+#### Contoh
+
+Tambahkan peristiwa baru pada `2016/4/21`:
+
+~~~ .php
+Calendar::date('2016/4/21', array(
+    'url' => '/article/selamat-ulang-tahun', // ← URL yang ingin Anda tautkan
+    'description' => 'Hari ini adalah hari ulang tahun Saya.', // ← deskripsi peristiwa
+    'kind' => array('menyenangkan', 'pesta', 'saya') // ← tambahkan beberapa label (opsional)
+), 'id_unik_anda');
+~~~
+
+Lebih banyak peristiwa:
+
+~~~ .php
+Calendar::hook('id_unik_anda', function($lot) {
+    $lot['2016/4/21'] = array('description' => 'Ini adalah tes 1.');
+    $lot['2016/4/22'] = array('description' => 'Ini adalah tes 2.');
+    $lot['2016/4/23'] = array('description' => 'Ini adalah tes 3.');
+    // …
+    return $lot;
+});
+~~~
+
+Menggunakan berkas:
+
+~~~ .php
+Calendar::hook('id_unik_anda', function($lot, $year, $month, $id) {
+    $the_year = Calendar::year($id, $year);
+    $the_month = Calendar::month($id, $month);
+    if($the_year === $year && $the_month === $month) {
+        $events = glob('path/to/' . $year . '/' . $month . '/[0-9]*.txt');
+        foreach($events as $event) {
+            $file = File::open($event)->unserialize();
+            $lot[$year . '/' . $month . '/' . File::N($event)] = $file;
+        }
+    }
+    return $lot;
+});
+~~~
+
+<!-- block:donate -->

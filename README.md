@@ -5,15 +5,15 @@ Calendar Plugin for Mecha CMS
 
 This is the core widget. Add your own custom events by using the available hooks.
 
-### Basic Usage
+### Usage
 
-As plain widget:
+#### Basic Usage
 
 ~~~ .php
 <?php echo Widget::calendar('your_unique_id'); ?>
 ~~~
 
-As block widget:
+#### As Widget Block
 
 ~~~ .php
 <?php echo Shield::chunk('block.widget', array(
@@ -31,9 +31,9 @@ Calendar::hook('your_unique_id', function($lot, $year, $month, $id) { … });
 ~~~
 
 ~~~ .php
-Calendar::date('2016/4/21', 'your_unique_id', array( … ));
-Calendar::date('2016/4', 'your_unique_id', array( … ));
-Calendar::date('2016', 'your_unique_id', array( … ));
+Calendar::date('2016/4/21', array( … ), 'your_unique_id');
+Calendar::date('2016/4', array( … ), 'your_unique_id');
+Calendar::date('2016', array( … ), 'your_unique_id');
 ~~~
 
 ### Examples
@@ -41,11 +41,11 @@ Calendar::date('2016', 'your_unique_id', array( … ));
 Add a new event on `2016/4/21`:
 
 ~~~ .php
-Calendar::date('2016/4/21', 'your_unique_id', array(
+Calendar::date('2016/4/21', array(
     'url' => '/article/happy-birth-day', // ← the URL you want to link to
     'description' => 'Today is my birthday.', // ← the event description
     'kind' => array('fun', 'party', 'me') // ← add some tags (optional)
-));
+), 'your_unique_id');
 ~~~
 
 More events:
@@ -64,8 +64,8 @@ Using files:
 
 ~~~ .php
 Calendar::hook('your_unique_id', function($lot, $year, $month, $id) {
-    $the_year = Request::get('calendar.' . $id . '.year', $year);
-    $the_month = Request::get('calendar.' . $id . '.month', $month);
+    $the_year = Calendar::year($id, $year);
+    $the_month = Calendar::month($id, $month);
     if($the_year === $year && $the_month === $month) {
         $events = glob('path/to/' . $year . '/' . $month . '/[0-9]*.txt');
         foreach($events as $event) {
